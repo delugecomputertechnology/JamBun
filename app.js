@@ -173,20 +173,19 @@ async function saveQuiz(name, answers, rewardGif) {
   }
 }
 
-
 // Share page — link + leaderboard
 function sharePage(id) {
   const link = `${baseUrl}#/play/${id}`;
-  const result = store.get("lastResult");
+  const result = sessionStorage.getItem("lastResult");
 
   // PASS + first-time creators ku (un pazhaya msg ah inga vechiko)
   const msgPass = `${toBold("Hi!")} Enna pathi idhula ketruka questions ku ${toBold("Correct")} ah answer pannu... \n
-${toBold("7 or more Correct")} ah answer panna unnaku oru ${toBold("reward")} irruku \n
+${toBold("Above 7 Correct")} ah answer panna unnaku oru ${toBold("reward")} irruku \n
 illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day full")} ah ${toBold("Notes")} vaikanum \n
  ${toBold("Click Here!")}`;
   // OUT aanavanga ku (inga vera msg ezhudhu)
   const msgOut = `${toBold("Hi!")} Enna pathi idhula ketruka questions ku ${toBold("Correct")} ah answer pannu... \n
-${toBold("7 or more Correct")} ah answer panna unnaku oru ${toBold("reward")} irruku \n
+${toBold("Above 7 Correct")} ah answer panna unnaku oru ${toBold("reward")} irruku \n
 illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day full")} ah ${toBold("Notes")} vaikanum \n
  ${toBold("Click Here!")}`;
   const dare = `${toBold("DARE NOTES:")}
@@ -221,7 +220,7 @@ illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day 
         <h2 class="section">Leaderboard 🏆</h2>
         <div id="board"><p class="small">Loading...</p></div>
         <button class="btn light" id="refresh">Refresh</button>`);
-  $("copy").onclick = async () => {
+    $("copy").onclick = async () => {
     await navigator.clipboard.writeText(fullText);
     $("copy").textContent = "Copied ✓";
   };
@@ -237,6 +236,7 @@ illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day 
   fillLeaderboard(id);
   timer = setInterval(() => fillLeaderboard(id), 8000);   // 8 sec ku oru thadava auto refresh
 }
+
 // Play page — friend answer panra page
 async function playPage(id) {
   show("<h2>Loading quiz...</h2>");
