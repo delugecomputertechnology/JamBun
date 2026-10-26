@@ -221,18 +221,18 @@ illa ${toBold("Out")} aaita keela irrukuradhula naa soldratha ${toBold("One day 
         <h2 class="section">Leaderboard 🏆</h2>
         <div id="board"><p class="small">Loading...</p></div>
         <button class="btn light" id="refresh">Refresh</button>`);
-$("copy").onclick = async () => {
-    await navigator.clipboard.writeText(fullText);
-    $("copy").textContent = "Copied ✓";
-  };
-  $("share").onclick = async () => {
-    if (navigator.share) {
-      try { await navigator.share({ text: fullText }); } catch (e) {}   // cancel pannina onnum aagaadhu
-    } else {
-      await navigator.clipboard.writeText(fullText);                    // desktop la copy aagum
-      $("share").textContent = "Copied ✓ Paste anywhere";
-    }
-  };
+ $("copy").onclick = async () => {
+  const ok = await copyText(fullText);
+  $("copy").textContent = ok ? "Copied ✓" : "Copy aagala, link ah long-press pannu";
+};
+$("share").onclick = async () => {
+  if (navigator.share) {
+    try { await navigator.share({ text: fullText }); } catch (e) {}
+  } else {
+    const ok = await copyText(fullText);
+    $("share").textContent = ok ? "Copied ✓ Paste anywhere" : "Copy aagala 😕";
+  }
+};
   $("refresh").onclick = () => fillLeaderboard(id);
   fillLeaderboard(id);
   timer = setInterval(() => fillLeaderboard(id), 8000);   // 8 sec ku oru thadava auto refresh
